@@ -1,8 +1,17 @@
 export class Object {
     constructor() {
         this.shape = [];
+        this.rotation = new Vect3();
         this.position = new Vect3();
         this.id = GameEngine.add(this);
+    }
+    rotate(vect3) {
+        this.shape.forEach(voxel => {
+            voxel.position.apply(voxel.position.rotateDeg(Axis.x, vect3.x));
+            voxel.position.apply(voxel.position.rotateDeg(Axis.y, vect3.y));
+            voxel.position.apply(voxel.position.rotateDeg(Axis.z, vect3.z));
+        });
+        return this;
     }
 }
 export class Cube extends Object {
@@ -118,7 +127,8 @@ class Voxel {
         this.position = pos || new Vect3();
     }
     getPosition() {
-        return this.position.add(this.parent.position);
+        let pos = this.position.add(this.parent.position).floor();
+        return pos;
     }
 }
 class NestedVoxel {
@@ -128,6 +138,11 @@ export class Vect3 {
         this.x = x || 0;
         this.y = y || 0;
         this.z = z || 0;
+    }
+    apply(vect3) {
+        this.x = vect3.x;
+        this.y = vect3.y;
+        this.z = vect3.z;
     }
     add(vect3) {
         let res = new Vect3(this.x + vect3.x, this.y + vect3.y, this.z + vect3.z);
@@ -153,7 +168,37 @@ export class Vect3 {
     normalize() {
         return this.divide(this.magnitude());
     }
+    rotate(axis, angle) {
+        let res = new Vect3(this.x, this.y, this.z);
+        switch (axis) {
+            case Axis.x:
+                res.y += res.y * Math.cos(angle);
+                res.z += res.z * Math.sin(angle);
+                break;
+            case Axis.y:
+                res.x += res.x * Math.sin(angle);
+                res.z += res.z * Math.cos(angle);
+                break;
+            default:
+                res.x += res.x * Math.cos(angle);
+                res.y += res.y * Math.sin(angle);
+                break;
+        }
+        return res;
+    }
+    rotateDeg(axis, angle) {
+        return this.rotate(axis, (angle / Math.PI) * 180);
+    }
+    floor() {
+        return new Vect3(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
+    }
 }
+var Axis;
+(function (Axis) {
+    Axis[Axis["x"] = 0] = "x";
+    Axis[Axis["y"] = 1] = "y";
+    Axis[Axis["z"] = 2] = "z";
+})(Axis || (Axis = {}));
 let GameEngine = {
     id: 0,
     objects: {},

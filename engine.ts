@@ -1,9 +1,19 @@
 export class Object {
     private id: number;
     readonly shape: Voxel[] = [];
+    readonly rotation: Vect3 = new Vect3();
     position: Vect3 = new Vect3();
     constructor() {
         this.id = GameEngine.add(this);
+    }
+    rotate(vect3: Vect3): Object {
+        this.shape.forEach(voxel => {
+            voxel.position.apply(voxel.position.rotateDeg(Axis.x, vect3.x));
+            voxel.position.apply(voxel.position.rotateDeg(Axis.y, vect3.y));
+            voxel.position.apply(voxel.position.rotateDeg(Axis.z, vect3.z));
+        });
+
+        return this;
     }
 }
 
@@ -132,7 +142,7 @@ export class Camera {
 
 class Voxel {
     private parent: Object;
-    private position: Vect3;
+    position: Vect3;
     color: Vect3 = new Vect3(255, 255, 255);
     constructor(parent: Object, pos?: Vect3) {
         this.parent = parent;
@@ -140,7 +150,8 @@ class Voxel {
     }
 
     getPosition(): Vect3 {
-        return this.position.add(this.parent.position);
+        let pos: Vect3 = this.position.add(this.parent.position).floor();
+        return pos;
     }
 }
 
@@ -155,6 +166,12 @@ export class Vect3 {
         this.x = x || 0;
         this.y = y || 0;
         this.z = z || 0;
+    }
+
+    apply(vect3: Vect3) {
+        this.x = vect3.x;
+        this.y = vect3.y;
+        this.z = vect3.z;
     }
 
     add(vect3: Vect3): Vect3 {
@@ -202,6 +219,45 @@ export class Vect3 {
     normalize(): Vect3 {
         return this.divide(this.magnitude());
     }
+
+    rotate(axis: Axis, angle: number): Vect3 {
+        let res = new Vect3(this.x, this.y, this.z);
+        switch (axis) {
+            case Axis.x:
+                res.y += res.y * Math.cos(angle);
+                res.z += res.z * Math.sin(angle);
+                break;
+            case Axis.y:
+                res.x += res.x * Math.sin(angle);
+                res.z += res.z * Math.cos(angle);
+                break;
+            default:
+                res.x += res.x * Math.cos(angle);
+                res.y += res.y * Math.sin(angle);
+                break;
+        }
+        return res;
+    }
+
+    rotateDeg(axis: Axis, angle: number): Vect3 {
+        return this.rotate(axis, (angle / Math.PI) * 180);
+    }
+
+    floor(): Vect3 {
+        return new Vect3(
+            Math.floor(this.x),
+            Math.floor(this.y),
+            Math.floor(this.z)
+        );
+    }
+
+    // rotateBase(vect3: Vect3): Vect3 {}
+}
+
+enum Axis {
+    x = 0,
+    y = 1,
+    z = 2
 }
 
 let GameEngine = {
