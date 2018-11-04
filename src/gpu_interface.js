@@ -117,28 +117,3 @@ export let create = (canvas, imageSize) => {
         .setOutput([imageSize[0], imageSize[1]])
         .setGraphical(true);
 };
-
-export class test {
-    constructor(cameraPos, pixels, voxels, nbVoxel) {
-        this._color = {
-            r: 0,
-            g: 0,
-            b: 0,
-            a: 0
-        };
-        this.thread = {
-            x: 0,
-            y: 0,
-            z: 0
-        };
-        this.constants = { max_value: Number.MAX_VALUE };
-        this.color = (a, b, c, d) => {
-            this._color = {
-                r: a,
-                g: b,
-                b: c,
-                a: d
-            };
-        };
-    }
-}
