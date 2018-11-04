@@ -24,29 +24,29 @@ export let create = (canvas, imageSize) => {
 
                 let closest = this.constants.max_value;
                 for (let i = 0; i < nbVoxel; i++) {
-                    let tx_a = this.constants.max_value;
+                    let tx_a = 0;
                     let tx_b = this.constants.max_value;
-                    let ty_a = this.constants.max_value;
+                    let ty_a = 0;
                     let ty_b = this.constants.max_value;
 
-                    if (pixel_x !== 0)
+                    if (pixel_x !== 0) {
                         tx_a = voxels[i][0] / pixel_x - cameraPos[0];
-                    if (pixel_x !== 0)
                         tx_b = (voxels[i][0] + 1) / pixel_x - cameraPos[0];
-                    if (tx_b < tx_a) {
-                        let tmp = tx_a;
-                        tx_a = tx_b;
-                        tx_b = tmp;
+                        if (tx_b < tx_a) {
+                            let tmp = tx_a;
+                            tx_a = tx_b;
+                            tx_b = tmp;
+                        }
                     }
 
-                    if (pixel_y !== 0)
+                    if (pixel_y !== 0) {
                         ty_a = voxels[i][1] / pixel_y - cameraPos[1];
-                    if (pixel_y !== 0)
                         ty_b = (voxels[i][1] + 1) / pixel_y - cameraPos[1];
-                    if (ty_b < ty_a) {
-                        let tmp = ty_a;
-                        ty_a = ty_b;
-                        ty_b = tmp;
+                        if (ty_b < ty_a) {
+                            let tmp = ty_a;
+                            ty_a = ty_b;
+                            ty_b = tmp;
+                        }
                     }
 
                     let is_good = 0;
@@ -72,17 +72,17 @@ export let create = (canvas, imageSize) => {
 
                     if (is_good < 2) continue;
 
-                    let tz_a = this.constants.max_value;
+                    let tz_a = 0;
                     let tz_b = this.constants.max_value;
 
-                    if (pixel_z !== 0)
+                    if (pixel_z !== 0) {
                         tz_a = voxels[i][2] / pixel_z - cameraPos[2];
-                    if (pixel_z !== 0)
                         tz_b = (voxels[i][2] + 1) / pixel_z - cameraPos[2];
-                    if (tz_b < tz_a) {
-                        let tmp = tz_a;
-                        tz_a = tz_b;
-                        tz_b = tmp;
+                        if (tz_b < tz_a) {
+                            let tmp = tz_a;
+                            tz_a = tz_b;
+                            tz_b = tmp;
+                        }
                     }
 
                     is_good = 0;

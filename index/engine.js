@@ -17,13 +17,19 @@ export class Object {
     }
 }
 export class Cube extends Object {
-    constructor(size) {
+    constructor(size, wireframe) {
         super();
         size = size || new Vect3(1, 1, 1);
+        wireframe = wireframe || false;
         for (let vx = 0; vx < size.x; vx++) {
             for (let vy = 0; vy < size.y; vy++) {
                 for (let vz = 0; vz < size.z; vz++) {
                     this.shape.push(new Voxel(this, new Vect3(vx, vy, vz)));
+                    if (wireframe) {
+                        if (vx === 0 || vz === 0) {
+                            this.shape[this.shape.length - 1].color = new Vect3(0, 0, 0);
+                        }
+                    }
                     // if(vx === 0 || vx === size.x){
                     //     this.shape[this.shape.length-1].color.x = 0;
                     // }
