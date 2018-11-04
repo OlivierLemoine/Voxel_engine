@@ -1,5 +1,5 @@
 import { Vect3, Axis } from './utils.js';
-import './gpu_interface.js';
+import * as GPU from './gpu_interface.js';
 
 export class Object {
     private id: number;

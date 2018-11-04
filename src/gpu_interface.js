@@ -76,9 +76,9 @@ export let create = (canvas, imageSize) => {
                     let tz_b = this.constants.max_value;
 
                     if (pixel_z !== 0)
-                        tz_a = voxels[i][0] / pixel_z - cameraPos[2];
+                        tz_a = voxels[i][2] / pixel_z - cameraPos[2];
                     if (pixel_z !== 0)
-                        tz_b = (voxels[i][0] + 1) / pixel_z - cameraPos[2];
+                        tz_b = (voxels[i][2] + 1) / pixel_z - cameraPos[2];
                     if (tz_b < tz_a) {
                         let tmp = tz_a;
                         tz_a = tz_b;
