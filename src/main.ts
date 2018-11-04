@@ -8,7 +8,7 @@ canvas.style.width = '300px';
 canvas.style.height = '300px';
 document.body.appendChild(canvas);
 
-let obj = new Cube(new Vect3(1, 10, 10), false);
+let obj = new Cube(new Vect3(5, 10, 10), false);
 obj.position.x = 10;
 obj.position.z = -30;
 obj.position.y = -30;
@@ -21,7 +21,7 @@ let count = 0;
 function step() {
     obj.position.y += 0.1;
     obj.position.z += 0.1;
-    obj.rotate(Axis.x, 2*count++);
+    // obj.rotate(Axis.x, 2*count++);
     camera.render();
     window.requestAnimationFrame(step);
     steps++;
