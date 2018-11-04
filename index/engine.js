@@ -1,4 +1,4 @@
-import { Vect3, Axis } from './utils.js';
+import { Vect3 } from './utils.js';
 import * as GPU from './gpu_interface.js';
 export class Object {
     constructor() {
@@ -7,11 +7,9 @@ export class Object {
         this.position = new Vect3();
         this.id = GameEngine.add(this);
     }
-    rotate(vect3) {
+    rotate(axis, angle) {
         this.shape.forEach(voxel => {
-            voxel.position.apply(voxel.position.rotateDeg(Axis.x, vect3.x));
-            voxel.position.apply(voxel.position.rotateDeg(Axis.y, vect3.y));
-            voxel.position.apply(voxel.position.rotateDeg(Axis.z, vect3.z));
+            voxel.position.apply(voxel.position.rotateDeg(axis, angle));
         });
         return this;
     }

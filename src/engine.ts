@@ -9,11 +9,9 @@ export class Object {
     constructor() {
         this.id = GameEngine.add(this);
     }
-    rotate(vect3: Vect3): Object {
+    rotate(axis: Axis, angle: number): Object {
         this.shape.forEach(voxel => {
-            voxel.position.apply(voxel.position.rotateDeg(Axis.x, vect3.x));
-            voxel.position.apply(voxel.position.rotateDeg(Axis.y, vect3.y));
-            voxel.position.apply(voxel.position.rotateDeg(Axis.z, vect3.z));
+            voxel.position.apply(voxel.position.rotateDeg(axis, angle));
         });
 
         return this;

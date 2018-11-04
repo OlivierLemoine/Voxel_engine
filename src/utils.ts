@@ -8,9 +8,7 @@ export class Vect3 {
             this.x = x || 0;
             this.y = y || 0;
             this.z = z || 0;
-        }
-        else
-        {
+        } else {
             this.x = x[0];
             this.y = x[1];
             this.z = x[2];
@@ -77,23 +75,23 @@ export class Vect3 {
         let res = new Vect3(this.x, this.y, this.z);
         switch (axis) {
             case Axis.x:
-                res.y += res.y * Math.cos(angle);
-                res.z += res.z * Math.sin(angle);
+                res.y = this.magnitude() * Math.cos(angle);
+                res.z = this.magnitude() * Math.sin(angle);
                 break;
             case Axis.y:
-                res.x += res.x * Math.sin(angle);
-                res.z += res.z * Math.cos(angle);
+                res.z = this.magnitude() * Math.cos(angle);
+                res.x = this.magnitude() * Math.sin(angle);
                 break;
             default:
-                res.x += res.x * Math.cos(angle);
-                res.y += res.y * Math.sin(angle);
+                res.x = this.magnitude() * Math.cos(angle);
+                res.y = this.magnitude() * Math.sin(angle);
                 break;
         }
         return res;
     }
 
     rotateDeg(axis: Axis, angle: number): Vect3 {
-        return this.rotate(axis, (angle / Math.PI) * 180);
+        return this.rotate(axis, (angle / 180) * Math.PI);
     }
 
     floor(): Vect3 {
