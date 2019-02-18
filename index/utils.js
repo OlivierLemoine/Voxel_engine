@@ -47,16 +47,16 @@ export class Vect3 {
         let res = new Vect3(this.x, this.y, this.z);
         switch (axis) {
             case Axis.x:
-                res.y = this.magnitude() * Math.cos(angle);
-                res.z = this.magnitude() * Math.sin(angle);
+                res.y = this.y * Math.cos(angle) - this.z * Math.sin(angle);
+                res.z = this.y * Math.sin(angle) + this.z * Math.cos(angle);
                 break;
             case Axis.y:
-                res.z = this.magnitude() * Math.cos(angle);
-                res.x = this.magnitude() * Math.sin(angle);
+                res.x = this.x * Math.cos(angle) + this.z * Math.sin(angle);
+                res.z = - this.x * Math.sin(angle) + this.z * Math.cos(angle);
                 break;
             default:
-                res.x = this.magnitude() * Math.cos(angle);
-                res.y = this.magnitude() * Math.sin(angle);
+                res.x = this.x * Math.cos(angle) - this.y * Math.sin(angle);
+                res.y = this.x * Math.sin(angle) + this.y * Math.cos(angle);
                 break;
         }
         return res;
@@ -68,7 +68,7 @@ export class Vect3 {
         return new Vect3(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
     }
 }
-export var Axis;
+export let Axis;
 (function (Axis) {
     Axis[Axis["x"] = 0] = "x";
     Axis[Axis["y"] = 1] = "y";

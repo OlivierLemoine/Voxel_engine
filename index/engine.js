@@ -1,5 +1,11 @@
-import { Vect3 } from './utils.js';
+import { Vect3, Axis } from './utils.js';
 import * as GPU from './gpu_interface.js';
+
+let resolution = 1;
+
+export function setResolution(r) {
+    resolution = Math.floor(r);
+}
 export class Object {
     constructor() {
         this.shape = [];
@@ -13,11 +19,19 @@ export class Object {
         });
         return this;
     }
+
+    rotateTo(rotation) {
+        this.rotate(Axis.x, this.rotation.x - rotation.x);
+        this.rotate(Axis.y, this.rotation.y - rotation.y);
+        this.rotate(Axis.z, this.rotation.z - rotation.z);
+        this.rotation = rotation;
+    }
 }
 export class Cube extends Object {
     constructor(size, wireframe) {
         super();
         size = size || new Vect3(1, 1, 1);
+        size.apply(size.dot(new Vect3(resolution, resolution, resolution)));
         wireframe = wireframe || false;
         for (let vx = 0; vx < size.x; vx++) {
             for (let vy = 0; vy < size.y; vy++) {
